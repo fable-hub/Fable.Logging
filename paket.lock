@@ -2,8 +2,8 @@ STORAGE: NONE
 RESTRICTION: == netstandard2.0
 NUGET
   remote: https://api.nuget.org/v3/index.json
-    Fable.Beam (5.0.0-rc.22)
-      Fable.Core (5.0.0-rc.1)
+    Fable.Beam (5.0.0-rc.32)
+      Fable.Core (>= 5.0)
       FSharp.Core (>= 5.0)
     Fable.Core (5.0.0-rc.1)
       FSharp.Core (>= 4.7.2)
