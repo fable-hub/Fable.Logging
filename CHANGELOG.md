@@ -1,11 +1,19 @@
 ---
-last_commit_released: a39accdd5ec96a5e2d3117d1dd0e2eef4fd1d252
+last_commit_released: 445476c29b1e6da06e649e6eb22faa8c15697a1b
 name: Fable.Logging
 ---
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 0.12.5 - 2026-06-08
+
+### 🐞 Bug Fixes
+
+* Upgrade Fable.Beam to 5.0.0-rc.32 and ignore set_primary_config result (#29) ([445476c](https://github.com/fable-hub/Fable.Logging/commit/445476c29b1e6da06e649e6eb22faa8c15697a1b))
+
+<strong><small>[View changes on Github](https://github.com/fable-hub/Fable.Logging/compare/a39accdd5ec96a5e2d3117d1dd0e2eef4fd1d252..445476c29b1e6da06e649e6eb22faa8c15697a1b)</small></strong>
 
 ## 0.12.4 - 2026-03-29
 
