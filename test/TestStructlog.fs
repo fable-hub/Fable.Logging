@@ -44,7 +44,7 @@ let ``test Structlog logger logs with format args`` () =
     let provider = ConsoleLoggerProvider()
     let factory = LoggerFactory.Create(fun builder -> builder.AddProvider(provider))
     let logger = factory.CreateLogger("test")
-    logger.LogInformation("hello {name}", box "World")
+    logger.LogInformation("hello {name}", "World")
 #else
     ()
 #endif

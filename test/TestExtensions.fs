@@ -81,7 +81,7 @@ let ``test LogDebug with format args`` () =
     let provider = new MockLoggerProvider()
     let factory = LoggerFactory.Create(fun builder -> builder.AddProvider(provider))
     let logger = factory.CreateLogger("test")
-    logger.LogInformation("hello {name}", box "World")
+    logger.LogInformation("hello {name}", "World")
     let log = provider.Loggers.[0].Logs.[0]
     log.Format |> equal "hello {name}"
     log.Args.Length |> equal 1

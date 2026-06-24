@@ -26,4 +26,4 @@ let ``test ConsoleLogger logs without error`` () =
 let ``test ConsoleLogger logs with format args`` () =
     let logger = ConsoleLogger("test") :> ILogger
     // ConsoleLogger uses String.Format internally, so use indexed placeholders
-    logger.Log(LogLevel.Information, "hello {0}", box "World")
+    logger.Log(LogLevel.Information, "hello {0}", "World")
