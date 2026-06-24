@@ -16,7 +16,7 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -40,7 +40,7 @@ jobs:
     if: "startsWith(github.event.head_commit.message, 'chore: release ')"
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v5
@@ -48,7 +48,7 @@ jobs:
           dotnet-version: 10.x
 
       - name: Install just
-        uses: extractions/setup-just@v3
+        uses: extractions/setup-just@v4
 
       - name: Install tools and restore
         run: |
