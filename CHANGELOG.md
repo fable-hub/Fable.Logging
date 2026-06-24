@@ -1,11 +1,19 @@
 ---
-last_commit_released: 445476c29b1e6da06e649e6eb22faa8c15697a1b
+last_commit_released: 532f0e6ce6c0066acba3a6306682510adfd54d78
 name: Fable.Logging
 ---
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 0.12.6 - 2026-06-24
+
+### 🐞 Bug Fixes
+
+* Upgrade to Fable 5.4 and drop unnecessary arg boxing (#31) ([532f0e6](https://github.com/fable-hub/Fable.Logging/commit/532f0e6ce6c0066acba3a6306682510adfd54d78))
+
+<strong><small>[View changes on Github](https://github.com/fable-hub/Fable.Logging/compare/445476c29b1e6da06e649e6eb22faa8c15697a1b..532f0e6ce6c0066acba3a6306682510adfd54d78)</small></strong>
 
 ## 0.12.5 - 2026-06-08
 
