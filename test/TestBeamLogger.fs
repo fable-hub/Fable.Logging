@@ -49,7 +49,7 @@ let ``test Beam logger logs with format args`` () =
     let provider = LoggerProvider()
     let factory = LoggerFactory.Create(fun builder -> builder.AddProvider(provider))
     let logger = factory.CreateLogger("beam-test")
-    logger.LogInformation("hello {name}", box "World")
+    logger.LogInformation("hello {name}", "World")
 #else
     ()
 #endif

@@ -51,4 +51,4 @@ let ``test LogState.Create with parameters`` () =
 let ``test LogState.Create with exception`` () =
     let ex = System.Exception("test error")
     let state = LogState.Create(LogLevel.Error, "failed", error = ex)
-    state.Exception |> equal (Some ex)
+    state.Exception |> equal (Some (ex :> exn))

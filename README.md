@@ -28,7 +28,7 @@ let factory =
 let logger = factory.CreateLogger("MyApp.Service")
 
 logger.LogInformation("Application started")
-logger.LogDebug("Processing request for {UserId}", box 42)
+logger.LogDebug("Processing request for {UserId}", 42)
 logger.LogError("Something went wrong")
 ```
 
@@ -48,7 +48,7 @@ let factory =
         builder.AddProvider(LoggerProvider()))
 
 let logger = factory.CreateLogger("MyApp")
-logger.LogInformation("Hello from {Platform}!", box "JavaScript")
+logger.LogInformation("Hello from {Platform}!", "JavaScript")
 ```
 
 ### Python (structlog)
@@ -71,7 +71,7 @@ let jsonFactory =
         builder.AddProvider(JsonLoggerProvider()))
 
 let logger = factory.CreateLogger("MyApp")
-logger.LogInformation("User {Name} logged in", box "Alice")
+logger.LogInformation("User {Name} logged in", "Alice")
 ```
 
 ### Erlang/BEAM (OTP logger)
@@ -87,7 +87,7 @@ let factory =
         builder.AddProvider(LoggerProvider()))
 
 let logger = factory.CreateLogger("MyApp")
-logger.LogWarning("Connection pool running low: {Available} remaining", box 3)
+logger.LogWarning("Connection pool running low: {Available} remaining", 3)
 ```
 
 ## Log Levels
@@ -125,7 +125,7 @@ Use named placeholders in log messages for structured logging. The placeholder n
 become keys in the structured log output, while values are substituted positionally:
 
 ```fsharp
-logger.LogInformation("Order {OrderId} placed by {Customer}", box 1234, box "Alice")
+logger.LogInformation("Order {OrderId} placed by {Customer}", 1234, "Alice")
 // Output: MyApp - Order 1234 placed by Alice
 ```
 
