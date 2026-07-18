@@ -37,7 +37,9 @@ type Logger(name: string) =
 type LoggerProvider(?minimumLevel: LogLevel) =
     let level = defaultArg minimumLevel LogLevel.Trace
 
-    do Fable.Beam.Logger.logger.set_primary_config (Atom "level", toErlangLevel level) |> ignore
+    do
+        Fable.Beam.Logger.logger.set_primary_config (Atom "level", toErlangLevel level)
+        |> ignore
 
     interface ILoggerProvider with
         member _.CreateLogger(name) =
