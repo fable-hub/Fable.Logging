@@ -1,11 +1,19 @@
 ---
-last_commit_released: 532f0e6ce6c0066acba3a6306682510adfd54d78
+last_commit_released: 3fc9eeac5c68826bc5f31d1433ba5ca52c5f427a
 name: Fable.Logging
 ---
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 0.12.7 - 2026-07-18
+
+### 🐞 Bug Fixes
+
+* Upgrade to Fable 5.11 and Fable.Core 5.2 (#35) ([3fc9eea](https://github.com/fable-hub/Fable.Logging/commit/3fc9eeac5c68826bc5f31d1433ba5ca52c5f427a))
+
+<strong><small>[View changes on Github](https://github.com/fable-hub/Fable.Logging/compare/532f0e6ce6c0066acba3a6306682510adfd54d78..3fc9eeac5c68826bc5f31d1433ba5ca52c5f427a)</small></strong>
 
 ## 0.12.6 - 2026-06-24
 
