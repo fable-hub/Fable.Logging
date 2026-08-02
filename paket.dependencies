@@ -6,7 +6,7 @@ framework: netstandard2.0
 
 nuget FSharp.Core >= 5.0.0 lowest_matching: true
 nuget Fable.Core >= 5.2.0
-nuget Fable.Beam >= 5.0.0-rc.32
+nuget Fable.Beam >= 5.0.0-rc.34
 
 group Test
     source https://api.nuget.org/v3/index.json
@@ -15,3 +15,4 @@ group Test
 
     nuget FSharp.Core
     nuget Fable.Core >= 5.2.0
+    nuget Fable.Beam >= 5.0.0-rc.34

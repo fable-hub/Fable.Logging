@@ -4,6 +4,7 @@
 set dotenv-load
 
 src_path := "src"
+build_path := "build"
 
 # Default recipe - show available commands
 default:
@@ -14,6 +15,7 @@ clean:
     rm -rf {{src_path}}/Fable.Logging/obj {{src_path}}/Fable.Logging/bin
     rm -rf {{src_path}}/Fable.Logging.Structlog/obj {{src_path}}/Fable.Logging.Structlog/bin
     rm -rf {{src_path}}/Fable.Logging.Beam/obj {{src_path}}/Fable.Logging.Beam/bin
+    rm -rf {{build_path}}
     rm -rf .fable
 
 # Build all projects
@@ -40,6 +42,22 @@ release: pack
 test:
     dotnet build test
     dotnet run --project test
+
+# Transpile tests to Erlang and compile with rebar3.
+# Fable.Logging.Structlog is excluded: its bindings are Python-only ([<Emit>] bodies
+# containing Python syntax) and do not transpile to valid Erlang.
+build-beam:
+    dotnet build test
+    dotnet fable test --lang beam --outDir {{build_path}}/tests --exclude Fable.Logging.Structlog
+    cd {{build_path}}/tests && rebar3 compile
+
+# Run tests on the BEAM (transpile F# to Erlang, compile, run under erl)
+test-beam: build-beam
+    @echo ""
+    cd {{build_path}}/tests && erl -noshell \
+        $(for d in _build/default/lib/*/ebin; do echo -n "-pa $d "; done) \
+        -eval 'main:main([])' \
+        -s init stop
 
 # Format code with Fantomas
 format:

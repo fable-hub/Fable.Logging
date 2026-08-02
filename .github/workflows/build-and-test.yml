@@ -21,6 +21,12 @@ jobs:
       - name: Install just
         uses: extractions/setup-just@v4
 
+      - name: Setup Erlang/OTP
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: "27"
+          rebar3-version: "3"
+
       - name: Restore dependencies
         run: |
           just setup
@@ -31,3 +37,9 @@ jobs:
 
       - name: Build
         run: just build
+
+      - name: Test (.NET)
+        run: just test
+
+      - name: Test (BEAM)
+        run: just test-beam
