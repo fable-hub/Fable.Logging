@@ -1,11 +1,19 @@
 ---
-last_commit_released: 3fc9eeac5c68826bc5f31d1433ba5ca52c5f427a
+last_commit_released: d3956091a06f7175b593031ee0f3d4785b4a6a09
 name: Fable.Logging
 ---
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 0.12.8 - 2026-08-02
+
+### 🐞 Bug Fixes
+
+* Upgrade to Fable 5.13 and Fable.Beam rc.34, emit real atoms (#38) ([4eecc78](https://github.com/fable-hub/Fable.Logging/commit/4eecc78a3c15ad8e4df3af7a897ca3e1251e7604))
+
+<strong><small>[View changes on Github](https://github.com/fable-hub/Fable.Logging/compare/3fc9eeac5c68826bc5f31d1433ba5ca52c5f427a..d3956091a06f7175b593031ee0f3d4785b4a6a09)</small></strong>
 
 ## 0.12.7 - 2026-07-18
 
