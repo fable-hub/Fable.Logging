@@ -5,12 +5,12 @@ open Fable.Beam
 let private toErlangLevel (level: LogLevel) =
     match level with
     | LogLevel.Trace
-    | LogLevel.Debug -> Atom "debug"
-    | LogLevel.Information -> Atom "info"
-    | LogLevel.Warning -> Atom "warning"
-    | LogLevel.Error -> Atom "error"
-    | LogLevel.Critical -> Atom "critical"
-    | _ -> Atom "info"
+    | LogLevel.Debug -> Atom.ofString "debug"
+    | LogLevel.Information -> Atom.ofString "info"
+    | LogLevel.Warning -> Atom.ofString "warning"
+    | LogLevel.Error -> Atom.ofString "error"
+    | LogLevel.Critical -> Atom.ofString "critical"
+    | _ -> Atom.ofString "info"
 
 type Logger(name: string) =
 
@@ -38,7 +38,7 @@ type LoggerProvider(?minimumLevel: LogLevel) =
     let level = defaultArg minimumLevel LogLevel.Trace
 
     do
-        Fable.Beam.Logger.logger.set_primary_config (Atom "level", toErlangLevel level)
+        Fable.Beam.Logger.logger.set_primary_config (Atom.ofString "level", toErlangLevel level)
         |> ignore
 
     interface ILoggerProvider with
