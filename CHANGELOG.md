@@ -1,11 +1,19 @@
 ---
-last_commit_released: d3956091a06f7175b593031ee0f3d4785b4a6a09
+last_commit_released: 94610b036fb6f724c55f50b747716dad31c78ecb
 name: Fable.Logging
 ---
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 1.0.0 - 2026-08-03
+
+### 🏗️ Breaking changes
+
+* Make loggers process-portable on the BEAM (#40) ([94610b0](https://github.com/fable-hub/Fable.Logging/commit/94610b036fb6f724c55f50b747716dad31c78ecb))
+
+<strong><small>[View changes on Github](https://github.com/fable-hub/Fable.Logging/compare/d3956091a06f7175b593031ee0f3d4785b4a6a09..94610b036fb6f724c55f50b747716dad31c78ecb)</small></strong>
 
 ## 0.12.8 - 2026-08-02
 
