@@ -35,7 +35,8 @@ let tests =
         "LoggerFactory dispatches to multiple providers", LoggerFactory.``test LoggerFactory dispatches to multiple providers``
         "LoggerFactory with configure sets minimum level", LoggerFactory.``test LoggerFactory with configure sets minimum level``
         "LoggerFactory.Create empty constructor", LoggerFactory.``test LoggerFactory.Create empty constructor``
-        "LoggerFactory AddProvider after CreateLogger", LoggerFactory.``test LoggerFactory AddProvider after CreateLogger``
+        "LoggerFactory AddProvider affects only later loggers", LoggerFactory.``test LoggerFactory AddProvider affects only later loggers``
+        "LoggerFactory exposes minimum level", LoggerFactory.``test LoggerFactory exposes minimum level``
         "LoggerFactory ClearProviders", LoggerFactory.``test LoggerFactory ClearProviders``
         "LoggerFactory Dispose clears providers", LoggerFactory.``test LoggerFactory Dispose clears providers``
 
@@ -70,6 +71,7 @@ let tests =
         "Beam logger logs all levels", BeamLogger.``test Beam logger logs all levels``
         "Beam logger logs with format args", BeamLogger.``test Beam logger logs with format args``
         "Beam logger respects minimum level", BeamLogger.``test Beam logger respects minimum level``
+        "Beam logger is usable from a spawned process", BeamLogger.``test Beam logger is usable from a spawned process``
 
         // JS Logger (JS only - no-ops on .NET)
         "JS LoggerProvider creates logger", JSLogger.``test JS LoggerProvider creates logger``

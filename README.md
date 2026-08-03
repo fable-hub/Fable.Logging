@@ -90,6 +90,14 @@ let logger = factory.CreateLogger("MyApp")
 logger.LogWarning("Connection pool running low: {Available} remaining", 3)
 ```
 
+Loggers are process-portable: one created here can be sent to another process,
+stored in ETS, or closed over by a spawned process. This matters for the usual
+BEAM server shape, where the process that configures logging is not the process
+that logs — a web handler running in a per-request process, for example.
+
+The factory and providers themselves are *not* portable; keep them in the
+process that configures logging and pass out loggers.
+
 ## Log Levels
 
 Log levels match the .NET `LogLevel` enum:
@@ -153,6 +161,11 @@ let logger = factory.CreateLogger("MyApp")
 logger.LogInformation("This goes to all providers")
 ```
 
+A logger captures the factory's providers when it is created. Registering a
+provider later with `factory.AddProvider` applies to loggers created from that
+point on, and leaves already-created loggers untouched — so configure providers
+before handing out loggers.
+
 ## Writing a Custom Provider
 
 Implement `ILoggerProvider` and `ILogger` to create your own logging backend:
@@ -173,6 +186,15 @@ type MyLoggerProvider() =
         member _.CreateLogger(name) = MyLogger(name)
         member _.Dispose() = ()
 ```
+
+On the BEAM, keep your logger type free of mutable instance state — no
+`mutable` fields, no `member val ... with get, set`, and no mutable collections
+such as `ResizeArray`. Any of these makes Fable back the instance with the
+process dictionary, which confines it to the process that created it; using it
+from another process fails at the first member access with
+`{badmap,undefined}`. Pass configuration as constructor parameters instead, as
+`MyLogger` does above. Providers may hold mutable state, since they stay in the
+configuring process.
 
 ## License
 

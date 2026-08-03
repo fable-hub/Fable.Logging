@@ -12,15 +12,24 @@ let private toErlangLevel (level: LogLevel) =
     | LogLevel.Critical -> Atom.ofString "critical"
     | _ -> Atom.ofString "info"
 
-type Logger(name: string) =
+/// Logger writing to the OTP `logger` module.
+///
+/// Deliberately has no mutable instance state: Fable compiles a class with a
+/// settable member to a `make_ref()` key into the process dictionary, which
+/// makes the instance unusable from any process other than the one that built
+/// it. Without it the instance is a plain map, so it can be sent between
+/// processes, stored in ETS, or closed over by a spawned process.
+type Logger(name: string, minimumLevel: LogLevel) =
 
-    member val MinimumLevel = LogLevel.Trace with get, set
+    new(name: string) = Logger(name, LogLevel.Trace)
+
+    member _.MinimumLevel = minimumLevel
 
     interface ILogger with
-        member x.Log(state: LogState) =
+        member _.Log(state: LogState) =
             let level = state.Level
 
-            if level >= x.MinimumLevel then
+            if level >= minimumLevel then
                 let message, _ = Common.translateFormat name state.Format state.Args
 
                 match level with
@@ -31,7 +40,7 @@ type Logger(name: string) =
                 | LogLevel.Critical -> Fable.Beam.Logger.logger.critical (message)
                 | _ -> Fable.Beam.Logger.logger.info (message)
 
-        member x.IsEnabled(logLevel: LogLevel) = logLevel >= x.MinimumLevel
+        member _.IsEnabled(logLevel: LogLevel) = logLevel >= minimumLevel
         member _.BeginScope(_) : System.IDisposable = failwith "Not implemented"
 
 type LoggerProvider(?minimumLevel: LogLevel) =
@@ -42,9 +51,6 @@ type LoggerProvider(?minimumLevel: LogLevel) =
         |> ignore
 
     interface ILoggerProvider with
-        member _.CreateLogger(name) =
-            let logger = Logger(name)
-            logger.MinimumLevel <- level
-            logger
+        member _.CreateLogger(name) = Logger(name, level)
 
         member _.Dispose() = ()
