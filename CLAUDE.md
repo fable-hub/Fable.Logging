@@ -51,5 +51,12 @@ Each package has its own `CHANGELOG.md` with YAML frontmatter for ShipIt. Versio
 - **Dependencies**: Managed via Paket (`paket.dependencies` + per-project `paket.references`)
 - **Target framework**: `netstandard2.0` for all library packages
 - **Fable interop**: `[<Import>]` for module imports, `[<Emit>]` for target-specific call syntax, `[<Mangle>]` for unique interface method names in transpiled output
+- **Logger types must have no mutable instance state**: no `mutable` fields, no `member val ... with
+  get, set`, no `ResizeArray` fields. Any of these makes Fable back the instance with a `make_ref()`
+  key into the process dictionary instead of a plain map, which confines it to the process that
+  created it — on the BEAM, using it from a spawned process fails with `{badmap,undefined}` at the
+  first member access. Pass configuration as constructor parameters. `LoggerFactory` and
+  `ILoggerProvider` implementations may hold mutable state; they stay in the configuring process.
+  `test/TestBeamLogger.fs` has a cross-process regression test for this.
 - **Releases**: EasyBuild.ShipIt with `--pre-release rc`, triggered by Conventional Commits
 - **NuGet packaging**: F# source files included via `<Content>` with `PackagePath="fable\"` for consumer-side Fable transpilation

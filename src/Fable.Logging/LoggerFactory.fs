@@ -2,14 +2,19 @@ namespace Fable.Logging
 
 open Fable.Core
 
-type internal Logger(name: string, providers: ResizeArray<ILoggerProvider>, minimumLevel: LogLevel) =
+/// Aggregating logger over a snapshot of the factory's providers.
+///
+/// The provider loggers are held in an immutable list on purpose. A mutable
+/// collection field is enough on its own to make Fable compile the whole
+/// instance to a `make_ref()` key into the process dictionary, which on the
+/// BEAM confines the logger to the process that created it — reading it from a
+/// spawned process fails with `{badmap,undefined}`. With no mutable state the
+/// instance is a plain map and crosses process boundaries freely.
+type internal Logger(name: string, providers: ILoggerProvider seq, minimumLevel: LogLevel) =
     let loggers =
         providers
         |> Seq.map (fun p -> p.CreateLogger(name))
-        |> ResizeArray
-
-    member x.AddProviders(provider: ILoggerProvider) =
-        loggers.Add(provider.CreateLogger(name))
+        |> List.ofSeq
 
     interface ILogger with
         member _.Log(state: LogState) =
@@ -17,7 +22,7 @@ type internal Logger(name: string, providers: ResizeArray<ILoggerProvider>, mini
                 loggers
                 |> Seq.iter (fun l -> l.Log state)
 
-        member x.IsEnabled(logLevel: LogLevel) =
+        member _.IsEnabled(logLevel: LogLevel) =
             logLevel >= minimumLevel
             && loggers
                |> Seq.exists (fun l -> l.IsEnabled logLevel)
@@ -33,21 +38,21 @@ type ILoggingBuilder =
 type LoggerFactory(providers: ILoggerProvider seq) =
     let providers = ResizeArray<ILoggerProvider>(providers)
     let mutable minimumLevel = LogLevel.Information
-    let loggers = ResizeArray<Logger>()
 
     new() = new LoggerFactory(Seq.empty)
 
+    /// The minimum level loggers created by this factory are configured with.
+    member _.MinimumLevel = minimumLevel
+
     interface ILoggerFactory with
         member this.CreateLogger(name) =
-            let logger = Logger(name, providers, minimumLevel)
-            loggers.Add(logger)
-            logger :> ILogger
+            Logger(name, providers, minimumLevel) :> ILogger
 
-        member this.AddProvider(provider) =
-            for logger in loggers do
-                logger.AddProviders(provider)
-
-            providers.Add(provider)
+        /// Registers a provider for loggers created from this point on.
+        /// Loggers already handed out keep the provider set they were created
+        /// with — they snapshot it, so they stay free of mutable state and
+        /// remain usable from other BEAM processes.
+        member this.AddProvider(provider) = providers.Add(provider)
 
         member this.Dispose() =
             for provider in providers do

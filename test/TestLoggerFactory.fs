@@ -71,17 +71,34 @@ let ``test LoggerFactory.Create empty constructor`` () =
     logger.IsEnabled(LogLevel.Information) |> equal false
 
 [<Fact>]
-let ``test LoggerFactory AddProvider after CreateLogger`` () =
+let ``test LoggerFactory AddProvider affects only later loggers`` () =
     let provider = new MockLoggerProvider()
     let factory = LoggerFactory.Create()
-    let logger = factory.CreateLogger("test")
-    // Initially no providers
-    logger.IsEnabled(LogLevel.Information) |> equal false
-    // Add provider after logger was created
+    let before = factory.CreateLogger("before")
+    before.IsEnabled(LogLevel.Information) |> equal false
+
+    // Loggers snapshot their providers, so one handed out earlier is unaffected
     factory.AddProvider(provider)
-    logger.IsEnabled(LogLevel.Information) |> equal true
-    logger.Log(LogLevel.Information, "hello")
+    before.IsEnabled(LogLevel.Information) |> equal false
+    before.Log(LogLevel.Information, "dropped")
+    provider.Loggers.Length |> equal 0
+
+    // Loggers created afterwards pick the provider up
+    let after = factory.CreateLogger("after")
+    after.IsEnabled(LogLevel.Information) |> equal true
+    after.Log(LogLevel.Information, "hello")
+    provider.Loggers.Length |> equal 1
     provider.Loggers.[0].Logs.Length |> equal 1
+
+[<Fact>]
+let ``test LoggerFactory exposes minimum level`` () =
+    let factory = LoggerFactory.Create()
+    factory.MinimumLevel |> equal LogLevel.Information
+
+    let configured =
+        LoggerFactory.Create(fun builder -> builder.SetMinimumLevel(LogLevel.Warning))
+
+    configured.MinimumLevel |> equal LogLevel.Warning
 
 [<Fact>]
 let ``test LoggerFactory ClearProviders`` () =
