@@ -33,12 +33,12 @@ type Logger(name: string, minimumLevel: LogLevel) =
                 let message, _ = Common.translateFormat name state.Format state.Args
 
                 match level with
-                | LogLevel.Debug -> Fable.Beam.Logger.logger.debug (message)
-                | LogLevel.Information -> Fable.Beam.Logger.logger.info (message)
-                | LogLevel.Warning -> Fable.Beam.Logger.logger.warning (message)
-                | LogLevel.Error -> Fable.Beam.Logger.logger.error (message)
-                | LogLevel.Critical -> Fable.Beam.Logger.logger.critical (message)
-                | _ -> Fable.Beam.Logger.logger.info (message)
+                | LogLevel.Debug -> Fable.Beam.Logger.debug message
+                | LogLevel.Information -> Fable.Beam.Logger.info message
+                | LogLevel.Warning -> Fable.Beam.Logger.warning message
+                | LogLevel.Error -> Fable.Beam.Logger.error message
+                | LogLevel.Critical -> Fable.Beam.Logger.critical message
+                | _ -> Fable.Beam.Logger.info message
 
         member _.IsEnabled(logLevel: LogLevel) = logLevel >= minimumLevel
         member _.BeginScope(_) : System.IDisposable = failwith "Not implemented"
@@ -47,7 +47,7 @@ type LoggerProvider(?minimumLevel: LogLevel) =
     let level = defaultArg minimumLevel LogLevel.Trace
 
     do
-        Fable.Beam.Logger.logger.set_primary_config (Atom.ofString "level", toErlangLevel level)
+        Fable.Beam.Logger.setPrimaryConfig (Atom.ofString "level") (toErlangLevel level)
         |> ignore
 
     interface ILoggerProvider with

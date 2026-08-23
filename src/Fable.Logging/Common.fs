@@ -15,18 +15,19 @@ module Common =
 
         while i < format.Length do
             if format.[i] = '{' then
-                let closeIdx = format.IndexOf('}', i + 1)
+                let afterOpen = format.Substring(i + 1)
+                let closeIdx = afterOpen.IndexOf('}')
 
                 if
-                    closeIdx > i + 1
+                    closeIdx > 0
                     && argIndex < args.Length
                 then
-                    let name = format.Substring(i + 1, closeIdx - i - 1)
+                    let name = afterOpen.Substring(0, closeIdx)
                     let value = args.[argIndex]
                     parameters[name] <- value
                     result.Append(string value) |> ignore
                     argIndex <- argIndex + 1
-                    i <- closeIdx + 1
+                    i <- i + closeIdx + 2
                 else
                     result.Append(format.[i]) |> ignore
                     i <- i + 1
