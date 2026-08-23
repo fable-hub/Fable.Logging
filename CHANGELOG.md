@@ -1,11 +1,19 @@
 ---
-last_commit_released: 94610b036fb6f724c55f50b747716dad31c78ecb
+last_commit_released: 21812be150db759dc1aa296c4ef7ae1ae9b2064a
 name: Fable.Logging
 ---
 
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 1.0.1 - 2026-08-23
+
+### 🐞 Bug Fixes
+
+* Support Fable.Beam rc.37 (#42) ([21812be](https://github.com/fable-hub/Fable.Logging/commit/21812be150db759dc1aa296c4ef7ae1ae9b2064a))
+
+<strong><small>[View changes on Github](https://github.com/fable-hub/Fable.Logging/compare/94610b036fb6f724c55f50b747716dad31c78ecb..21812be150db759dc1aa296c4ef7ae1ae9b2064a)</small></strong>
 
 ## 1.0.0 - 2026-08-03
 
