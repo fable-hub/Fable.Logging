@@ -18,10 +18,7 @@ module Common =
                 let afterOpen = format.Substring(i + 1)
                 let closeIdx = afterOpen.IndexOf('}')
 
-                if
-                    closeIdx > 0
-                    && argIndex < args.Length
-                then
+                if closeIdx > 0 && argIndex < args.Length then
                     let name = afterOpen.Substring(0, closeIdx)
                     let value = args.[argIndex]
                     parameters[name] <- value
